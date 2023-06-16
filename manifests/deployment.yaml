@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftp-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ftp
+  template:
+    metadata:
+      labels:
+        app: ftp
+    spec:
+      containers:
+        - name: ftp-server
+          image: adeleye1416/ftp-server
+          ports:
+            - containerPort: 21
+            - name: minport
+              containerPort: 30080
+            - name: maxport 
+              containerPort: 30081
+          env:
+            - name: FTP_USER
+              value: admin
+            - name: FTP_PASS
+              value: admin
+            - name: EXTERNAL_IP
+              value: 127.0.0.1
+            - name: PASSIVE_MIN_PORT
+              value: "30080"
+            - name: PASSIVE_MAX_PORT
+              value: "30081"
